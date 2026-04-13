@@ -231,6 +231,34 @@
           </div>
         </div>
 
+        <div class="accordion-item">
+          <div class="accordion-trigger" id="live-rooms-trigger">
+            <span>LIVE ROOMS</span>
+            <svg viewBox="0 0 24 24" class="chevron">
+              <path d="M7 10l5 5 5-5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                stroke-linejoin="round" />
+            </svg>
+          </div>
+          <div class="accordion-content">
+            <div id="rejoin-container" style="display: none; margin-bottom: 12px;">
+              <p class="section-label" style="font-size: 9px; margin-bottom: 6px;">REJOIN LAST SESSION:</p>
+              <div id="rejoin-pill" class="chip active" style="width: 100%; justify-content: space-between; cursor: pointer;">
+                <span id="rejoin-code" style="font-weight: 800; letter-spacing: 1px;">CODE123</span>
+                <span style="font-size: 10px; opacity: 0.8;">Click to Join</span>
+              </div>
+            </div>
+            
+            <div class="input-card room-input-group">
+              <input type="text" id="room-join-input" placeholder="Enter 6-char code" maxlength="6">
+              <button id="btn-join-room">JOIN</button>
+            </div>
+            <button id="btn-create-room" class="secondary-btn full-width" style="margin-top: 8px; font-size: 10px; padding: 10px;">
+              + CREATE NEW ROOM
+            </button>
+            <p class="empty-state small" style="margin-top: 10px; text-align: center;">Focus synchronously with your squad.</p>
+          </div>
+        </div>
+
         <div class="control-row tunnel-vision-row">
           <span class="control-label">Tunnel Vision</span>
           <label class="switch">

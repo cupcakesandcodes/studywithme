@@ -14,16 +14,27 @@ document.addEventListener('DOMContentLoaded', () => {
   const socialTrigger = document.getElementById('social-media-trigger');
   const tunnelToggle = document.getElementById('tunnel-vision-toggle');
   const blockToggle = document.getElementById('block-toggle');
+  const roomJoinInput = document.getElementById('room-join-input');
+  const joinBtn = document.getElementById('btn-join-room');
+  const createBtn = document.getElementById('btn-create-room');
+  const rejoinContainer = document.getElementById('rejoin-container');
+  const rejoinPill = document.getElementById('rejoin-pill');
+  const rejoinCodeDisplay = document.getElementById('rejoin-code');
 
   let selectedDuration = 25;
 
   // Load initial state
-  chrome.storage.local.get(['remainingTime', 'isRunning', 'goal', 'tunnelVisionEnabled', 'blockingEnabled', 'endTime', 'activeScene', 'activeSound', 'activeTheme', 'blockedSites', 'userSession'], (data) => {
+  chrome.storage.local.get(['remainingTime', 'isRunning', 'goal', 'tunnelVisionEnabled', 'blockingEnabled', 'endTime', 'activeScene', 'activeSound', 'activeTheme', 'blockedSites', 'userSession', 'lastRoomCode'], (data) => {
     updateTimerDisplay(data.remainingTime || 1500);
     updateActionBtn(data.isRunning, data.endTime);
     goalInput.value = data.goal || 'learn docker';
     tunnelToggle.checked = !!data.tunnelVisionEnabled;
     blockToggle.checked = !!data.blockingEnabled;
+
+    if (data.lastRoomCode && rejoinContainer) {
+      rejoinContainer.style.display = 'block';
+      rejoinCodeDisplay.innerText = data.lastRoomCode;
+    }
 
     // Cloud Status UI Update
     const cloudStatus = document.getElementById('cloud-status');
@@ -128,6 +139,38 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     }
   });
+
+  // --- LIVE ROOMS LOGIC ---
+  if (joinBtn) {
+    joinBtn.addEventListener('click', () => {
+      const code = roomJoinInput.value.trim().toUpperCase();
+      if (code.length === 6) {
+        chrome.storage.local.set({ lastRoomCode: code }, () => {
+          chrome.tabs.create({ url: `http://localhost:5173?room=${code}` });
+        });
+      }
+    });
+
+    roomJoinInput.addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') joinBtn.click();
+    });
+  }
+
+  if (createBtn) {
+    createBtn.addEventListener('click', () => {
+      chrome.tabs.create({ url: `http://localhost:5173?action=create_room` });
+    });
+  }
+
+  if (rejoinPill) {
+    rejoinPill.addEventListener('click', () => {
+      const code = rejoinCodeDisplay.innerText;
+      if (code) {
+        chrome.tabs.create({ url: `http://localhost:5173?room=${code}` });
+      }
+    });
+  }
+  // ------------------------
 
   // Color Theme Selection
   const colorChips = document.querySelectorAll('.color-chip');

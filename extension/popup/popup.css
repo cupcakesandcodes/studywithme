@@ -1039,3 +1039,51 @@ input:checked+.slider:before {
   flex-direction: column;
   gap: 20px;
 }
+
+/* Live Rooms Extension Styles */
+.room-input-group {
+  display: flex;
+  gap: 8px;
+  padding: 6px 10px;
+  align-items: center;
+  background: var(--card-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 10px;
+}
+
+.room-input-group input {
+  flex: 1;
+  background: none;
+  border: none;
+  color: var(--text-primary);
+  font-size: 13px;
+  outline: none;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.room-input-group button {
+  background: var(--accent-color);
+  color: #fff;
+  border: none;
+  padding: 6px 14px;
+  border-radius: 6px;
+  font-size: 10px;
+  font-weight: 800;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.room-input-group button:hover {
+  background: var(--accent-hover);
+}
+
+#rejoin-pill:hover {
+  border-color: var(--text-secondary);
+  background: var(--timer-border);
+}
+
+.chip {
+  transition: all 0.2s !important;
+}
